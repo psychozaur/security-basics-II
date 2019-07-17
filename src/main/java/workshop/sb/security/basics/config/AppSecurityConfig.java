@@ -34,6 +34,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
      */
 
+//    public void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests().anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .and()
+//                .httpBasic();
+//    }
+
     /*
             TODO 2 Modyfikacja bazowego zachowania.
             Zmień implentację configure używając API obiektu HttpSecurity
@@ -42,6 +51,19 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
             2. usuwanie dostępne tylko dla użytkowników z rolą ROLE_ADMIN - użyj API antMatchers
 
       */
+
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/").hasRole("USER")
+                .antMatchers("/delete/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
+
+
+    }
 
     /*
             TODO 3 uruchom aplikację - zaloguj się jako user, przetestuj operację delete
